@@ -13,6 +13,12 @@ public class User {
         Password = password;
         IsBarber = isBarber;
     }
+    public User( String email, String password) {
+
+        Email = email;
+        Password = password;
+
+    }
 
     public String getDisplayName() {
         return DisplayName;
