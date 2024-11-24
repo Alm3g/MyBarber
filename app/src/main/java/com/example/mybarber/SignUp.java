@@ -27,6 +27,8 @@ RadioButton BarberButton,CustomerButton;
 Boolean IsBarber;
 Button SignUp;
 private FirebaseAuth mAuth;
+    SignUp view;
+
 
 
     @Override
@@ -92,6 +94,7 @@ private FirebaseAuth mAuth;
                 }
             }
         });
+
     }
 
 }

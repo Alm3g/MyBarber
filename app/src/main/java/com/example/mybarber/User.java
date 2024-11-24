@@ -2,6 +2,7 @@ package com.example.mybarber;
 
 public class User {
 
+        private String id;
         private String DisplayName;
         private String Email;
         private String Password;
@@ -13,8 +14,8 @@ public class User {
         Password = password;
         IsBarber = isBarber;
     }
-    public User( String email, String password) {
-
+    public User( String email, String password,String id) {
+        this.id=id;
         Email = email;
         Password = password;
 
