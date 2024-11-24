@@ -1,12 +1,18 @@
 package com.example.mybarber;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,6 +32,7 @@ RadioGroup UserTypeGroup;
 RadioButton BarberButton,CustomerButton;
 Boolean IsBarber;
 Button SignUp;
+TextView loginTextView;
 private FirebaseAuth mAuth;
     SignUp view;
 
@@ -45,6 +52,19 @@ private FirebaseAuth mAuth;
 
         setContentView(R.layout.activity_sign_up);
 
+       loginTextView = findViewById(R.id.logintext);
+
+
+
+
+
+
+
+
+
+
+
+
        displayName=findViewById(R.id.displayname);
        Email=findViewById(R.id.email);
        Password=findViewById(R.id.password);
@@ -58,6 +78,20 @@ private FirebaseAuth mAuth;
        SignUp.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
 
+        String text = "already have an account? login";
+        SpannableString spannableString = new SpannableString(text);
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View view) {
+                startActivity(new intent(SignUp.this, Login.class));
+            }
+        };
+
+        spannableString.setSpan(clickableSpan, 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        loginTextView.setText(spannableString);
+        loginTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 
     }
