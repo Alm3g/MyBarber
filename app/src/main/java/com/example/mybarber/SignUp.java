@@ -1,5 +1,6 @@
 package com.example.mybarber;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -34,7 +36,6 @@ Boolean IsBarber;
 Button SignUp;
 TextView loginTextView;
 private FirebaseAuth mAuth;
-    SignUp view;
 
 
 
@@ -53,18 +54,7 @@ private FirebaseAuth mAuth;
         setContentView(R.layout.activity_sign_up);
 
        loginTextView = findViewById(R.id.logintext);
-
-
-
-
-
-
-
-
-
-
-
-
+       loginTextView.setOnClickListener(this);
        displayName=findViewById(R.id.displayname);
        Email=findViewById(R.id.email);
        Password=findViewById(R.id.password);
@@ -76,22 +66,8 @@ private FirebaseAuth mAuth;
        CustomerButton.setOnCheckedChangeListener(this);
        SignUp=findViewById(R.id.signupbtn);
        SignUp.setOnClickListener(this);
-        mAuth = FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
 
-        String text = "already have an account? login";
-        SpannableString spannableString = new SpannableString(text);
-        ClickableSpan clickableSpan = new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View view) {
-                startActivity(new intent(SignUp.this, Login.class));
-            }
-        };
-
-        spannableString.setSpan(clickableSpan, 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.blue)), 25, 30, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        loginTextView.setText(spannableString);
-        loginTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
 
     }
@@ -103,32 +79,28 @@ private FirebaseAuth mAuth;
             String email=Email.getText().toString();
             String password=Password.getText().toString();
 
+            mAuth.createUserWithEmailAndPassword(email, password)
+                    .addOnCompleteListener( new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(SignUp.this, "Authentication Succeed.",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(SignUp.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
 
 
-
-            User user=new User(username,email,password,IsBarber);
-            submitClicked(user);
         }
-    }
 
-    public void submitClicked(User user) {
-
-        mAuth.createUserWithEmailAndPassword(user.getEmail(),user.getPassword()).addOnCompleteListener(view,new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-
-                    User user1 = new User(user.getEmail(),user.getPassword(),FirebaseAuth.getInstance().getUid());
-                    Repository.getInstance().AddUser(user1);
-                    //view.navigateToMain();
-
-                } else {
-                    // If sign in fails, display a message to the user.
-
-                }
-            }
-        });
-
+        if (view == loginTextView) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
 }
