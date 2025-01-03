@@ -9,26 +9,39 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.mybarber.ui.home.HomeFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class Splash extends AppCompatActivity {
 
+    FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        auth = FirebaseAuth.getInstance();
 
         Thread t=new Thread() {
             public void run() {
 
                 try {
-//sleep thread for 10 seconds, time in milliseconds
+
                     sleep(3500);
 
-//start new activity
-                    Intent i=new Intent(Splash.this,MainActivity.class);
-                    startActivity(i);
+                    FirebaseUser currentUser = auth.getCurrentUser();
 
-//destroying Splash activity
-                    finish();
+                    if(currentUser != null){
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    else {
+                        Intent intent = new Intent(getApplicationContext(), bottomnav.class);
+                        startActivity(intent);
+                        finish();
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -36,7 +49,7 @@ public class Splash extends AppCompatActivity {
             }
         };
 
-//start thread
+
         t.start();
 
     };

@@ -22,6 +22,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.example.mybarber.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -86,6 +88,9 @@ private FirebaseAuth mAuth;
                             if (task.isSuccessful()) {
                                 Toast.makeText(SignUp.this, "Authentication Succeed.",
                                         Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), bottomnav.class);
+                                startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(SignUp.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
