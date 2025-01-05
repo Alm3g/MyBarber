@@ -3,13 +3,8 @@ package com.example.mybarber;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.mybarber.ui.home.HomeFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -32,13 +27,13 @@ public class Splash extends AppCompatActivity {
                     FirebaseUser currentUser = auth.getCurrentUser();
 
                     if(currentUser != null){
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), bottomnav.class);
                         startActivity(intent);
                         finish();
                     }
 
                     else {
-                        Intent intent = new Intent(getApplicationContext(), bottomnav.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
