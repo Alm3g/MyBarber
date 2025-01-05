@@ -28,6 +28,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class SignUp extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
@@ -35,6 +38,7 @@ EditText displayName,Email,Password,ConfirmPassword;
 RadioGroup UserTypeGroup;
 RadioButton BarberButton,CustomerButton;
 Boolean IsBarber;
+FirebaseFirestore db = FirebaseFirestore.getInstance();
 Button SignUp;
 TextView loginTextView;
 private FirebaseAuth mAuth;
@@ -86,11 +90,32 @@ private FirebaseAuth mAuth;
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(SignUp.this, "Authentication Succeed.",
-                                        Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), bottomnav.class);
-                                startActivity(intent);
-                                finish();
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                if(user!=null){
+                                    try {
+                                        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                        db.collection("users").document(uid)
+                                                .update("IsBarber", IsBarber);
+                                    }
+                                    catch (Error e) {
+                                        System.out.println(e);
+                                    }
+                                    UserProfileChangeRequest profileupdate = new UserProfileChangeRequest.Builder().setDisplayName(username).build();
+                                    user.updateProfile(profileupdate).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(SignUp.this, "Authentication Succeed.",
+                                                        Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getApplicationContext(), bottomnav.class);
+                                                startActivity(intent);
+                                                finish();
+
+                                            }
+                                        }
+                                    });
+                                }
+
                             } else {
                                 Toast.makeText(SignUp.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
