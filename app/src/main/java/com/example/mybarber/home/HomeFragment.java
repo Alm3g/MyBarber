@@ -1,5 +1,6 @@
 package com.example.mybarber.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.mybarber.Login;
+import com.example.mybarber.MainActivity;
 import com.example.mybarber.R;
 import com.google.firebase.auth.FirebaseAuth;
 
