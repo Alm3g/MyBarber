@@ -60,6 +60,27 @@
                     android:id="@+id/username"
                     android:textColor="@color/white"
                     android:text="USERNAME"/>
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="email"
+                    android:textColor="@color/lightgrey"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+
+                    android:fontFamily="@font/sora"/>
+
+                <TextView
+                    android:id="@+id/role"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="role"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/sora"/>
+
 
                 <Space
                     android:layout_width="wrap_content"

@@ -32,6 +32,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class SignUp extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
 EditText displayName,Email,Password,ConfirmPassword;
@@ -94,8 +97,22 @@ private FirebaseAuth mAuth;
                                 if(user!=null){
                                     try {
                                         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+// Create a user document with name, email, and IsBarber
+                                        Map<String, Object> userMap = new HashMap<>();
+                                        userMap.put("displayName", username);
+                                        userMap.put("email", email);
+                                        userMap.put("IsBarber", IsBarber);
+
                                         db.collection("users").document(uid)
-                                                .update("IsBarber", IsBarber);
+                                                .set(userMap)
+                                                .addOnSuccessListener(unused -> {
+                                                    // Optional: Log or toast that data saved
+                                                })
+                                                .addOnFailureListener(e -> {
+                                                    // Optional: handle error
+                                                });
+
                                     }
                                     catch (Error e) {
                                         System.out.println(e);

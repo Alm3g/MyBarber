@@ -24,6 +24,7 @@ public class bottomnav extends AppCompatActivity implements BottomNavigationView
         bottomNavigationView = findViewById(R.id.bottomNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         loadfragment(new HomeFragment());
+
     }
     private void loadfragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
